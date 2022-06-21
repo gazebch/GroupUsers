@@ -7,13 +7,13 @@ User[] people =
     new User(5, "Otec", "Test5", 9), new User(6, "Polik", "Test6", 9),
 };
 
-var companies = people.GroupBy(s => s.Age);
+var ageGroup = people.GroupBy(s => s.Age);
 
-foreach (var company in companies)
+foreach (var agePeople in ageGroup)
 {
-    Console.WriteLine(company.Key);
+    Console.WriteLine(agePeople.Key);
 
-    foreach (var person in company)
+    foreach (var person in agePeople)
     {
         Console.WriteLine(person.Name);
     }
