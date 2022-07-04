@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+var comp = new MyFounderNumberComparer();
+
 User[] people =
 {
     new User(1, "Jora", "Test1", 26), new User(2, "Tom", "Test2", 15),
@@ -7,17 +9,37 @@ User[] people =
     new User(5, "Otec", "Test5", 9), new User(6, "Polik", "Test6", 9),
 };
 
-var ageGroup = people.GroupBy(s => s.Age);
+var ageGroup = people.GroupBy(s => s, comp);
 
 foreach (var agePeople in ageGroup)
 {
-    Console.WriteLine(agePeople.Key);
+    Console.WriteLine(comp.isFounder(agePeople.Key.Age) ? "Несовершеннолетний" : "Совершеннолетний");
 
     foreach (var person in agePeople)
     {
-        Console.WriteLine(person.Name);
+        Console.WriteLine(person.Name + " " + person.Age);
     }
     Console.WriteLine(); // для разделения между группами
 }
 
-record class User(long Id, string Name, string LastName, long Age);
+public class MyFounderNumberComparer : IEqualityComparer<User>
+{
+    public bool Equals(User x, User y)
+    {
+        return (isFounder(x.Age) == isFounder(y.Age));
+    }
+
+    public int GetHashCode(User i)
+    {
+        int f = 1;
+        int nf = 100;
+        return (isFounder(i.Age) ? f.GetHashCode() : nf.GetHashCode());
+    }
+
+    public bool isFounder(int id)
+    {
+        return (id < 18);
+    }
+}
+
+public record class User(long Id, string Name, string LastName, int Age);
