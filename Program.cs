@@ -26,14 +26,14 @@ public class FindAgeComparer : IEqualityComparer<User>
 {
     public bool Equals(User x, User y)
     {
-        return (YearOld(x.Age) == YearOld(y.Age));
+        return YearOld(x.Age) == YearOld(y.Age);
     }
 
     public int GetHashCode(User i)
     {
         int f = 1;
         int nf = 100;
-        return (YearOld(i.Age) ? f.GetHashCode() : nf.GetHashCode());
+        return YearOld(i.Age) ? f.GetHashCode() : nf.GetHashCode();
     }
 
     public bool YearOld(int id)
